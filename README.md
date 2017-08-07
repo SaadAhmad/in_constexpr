@@ -11,6 +11,20 @@ The approach is discussed in [this post](http://saadahmad.ca/detecting-evaluatio
 * smart_assert        - constexpr friendly assert
 * setup_if_constexpr  - enables the if (in_constexpr()) at runtime. 
 
+# Constraints
+* Only tested on GCC 5+ and Clang 3.8+
+* x86 only so far
+* Runtime approach only works on linux (replacing code in the binary should work under windows for now)
+* See detailed descriptions about caveats [here](http://saadahmad.ca/detecting-evaluation-context-inside-constexpr-functions/#caveats)
+
+# Using the library
+You can compile and install this library using cmake. You will need to link this library in as a static library.
+You can customize and install the library using the following:
+```
+cmake .. -DCMAKE_INSTALL_PREFIX=<directory> && make -j && make install
+```
+Then just link in as you would a normal library. You can try the examples in examples/ to see how to use the library.
+
 # Example code
 ```cpp
 template <typename T>
