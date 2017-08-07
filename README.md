@@ -21,7 +21,7 @@ The approach is discussed in [this post](http://saadahmad.ca/detecting-evaluatio
 You can compile and install this library using cmake. You will need to link this library in as a static library.
 You can customize and install the library using the following:
 ```
-cmake .. -DCMAKE_INSTALL_PREFIX=<directory> && make -j && make install
+cmake <code directory> -DCMAKE_INSTALL_PREFIX=<install directory> && make -j && make install
 ```
 Then just link in as you would a normal library. You can try the examples in examples/ to see how to use the library.
 
