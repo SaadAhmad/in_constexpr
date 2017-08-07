@@ -7,37 +7,30 @@
 
 #include <in_constexpr/if_in_constexpr.hpp>
 
-template<typename T>
+template <typename T>
 constexpr auto some_transform(T &&v) {
-  if ( in_constexpr() )
-  {
+  if (in_constexpr()) {
     return v + 10;
-  }
-  else {
+  } else {
     return v * -1;
   }
 }
 
 // This is noinline just for making the assembly easier to read
-__attribute((noinline)) 
-void print(int a)
-{
+__attribute((noinline)) void print(int a) {
   std::cout << a << std::endl;
 }
 
-int main()
-{
-  if ( !setup_if_constexpr() )
-  {
+int main() {
+  if (!setup_if_constexpr()) {
     return -1;
   }
   constexpr int a = 11;
-  volatile int b = 2;
+  volatile int b  = 2;
 
   constexpr auto x = some_transform(a);
-  auto y = some_transform(b);
+  auto y           = some_transform(b);
 
   print(x);
   print(y);
 }
-

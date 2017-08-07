@@ -9,17 +9,18 @@
 
 #include <in_constexpr/if_in_constexpr.hpp>
 
-template<int LINE> struct assert_line {};
-template<typename...Args > 
-constexpr inline bool assertion_failed(Args ... args) { return true; }
+template <int LINE>
+struct assert_line {};
+template <typename... Args>
+constexpr inline bool assertion_failed(Args... args) {
+  return true;
+}
 
-#define smart_assert(expr, message)\
-  if ( in_constexpr() ) {\
-    if ( !(expr) ) { \
+#define smart_assert(expr, message)                    \
+  if (in_constexpr()) {                                \
+    if (!(expr)) {                                     \
       throw assertion_failed(assert_line<__LINE__>()); \
-    }\
-  } else { \
-    assert((expr) && message);\
+    }                                                  \
+  } else {                                             \
+    assert((expr) && message);                         \
   }
-
-

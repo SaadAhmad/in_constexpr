@@ -8,32 +8,30 @@
 #include <in_constexpr/if_in_constexpr.hpp>
 #include <in_constexpr/smart_assert.hpp>
 
-const int N_MAX = 30;
+const int N_MAX            = 30;
 int factorial_cache[N_MAX] = {0};
 
-constexpr int factorial(int n){  
+constexpr int factorial(int n) {
   smart_assert(n >= 0 && n < N_MAX, "N >= 0 && N <= N_MAX");
 
-  if ( n == 0 ) return 1;
+  if (n == 0)
+    return 1;
   else {
-    if ( in_constexpr() ) { 
-      return n * factorial(n-1);
-    }
-    else {
+    if (in_constexpr()) {
+      return n * factorial(n - 1);
+    } else {
       std::cout << "Calling factorial " << n << std::endl;
       // Since we're in runtime, we can cache results.
-      if ( factorial_cache[n] == 0 ) {
-        factorial_cache[n] = n * factorial(n-1);
+      if (factorial_cache[n] == 0) {
+        factorial_cache[n] = n * factorial(n - 1);
       }
       return factorial_cache[n];
     }
   }
 }
 
-
 int main() {
-  if ( !setup_if_constexpr() )
-  {
+  if (!setup_if_constexpr()) {
     return -1;
   }
   volatile int a = 5;
