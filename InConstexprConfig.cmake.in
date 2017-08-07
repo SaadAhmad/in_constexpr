@@ -1,0 +1,13 @@
+# - Config file for the in_constexpr package
+# It defines the following variables
+#  in_constexpr_INCLUDE_DIRS - include directories for in_constexpr
+#  in_constexpr_LIBRARIES    - libraries to link against
+#  in_constexpr_EXECUTABLE   - the bar executable
+
+# Compute paths
+set(in_constexpr_CMAKE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+set(in_constexpr_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include")
+
+# These are IMPORTED targets created by in_constexprTargets.cmake
+set(in_constexpr_LIBRARIES in_constexpr)
+

@@ -42,3 +42,5 @@ constexpr auto in_constexpr_impl(T) {
    if ( __builtin_expect(in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), 0)
 #endif
 
+
+bool setup_if_constexpr();

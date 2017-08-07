@@ -32,6 +32,10 @@ constexpr int factorial(int n){
 
 
 int main() {
+  if ( !setup_if_constexpr() )
+  {
+    return -1;
+  }
   volatile int a = 5;
   volatile int b = 6;
   std::cout << factorial(a) << std::endl;
