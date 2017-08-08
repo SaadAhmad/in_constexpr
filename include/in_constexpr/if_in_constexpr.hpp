@@ -33,12 +33,16 @@ __attribute__((no_opt)) constexpr auto in_constexpr_impl(T) {
 #define IN_CONSTEXPR_CAT2(x, y) IN_CONSTEXPR_CAT(x, y)
 #if 0
 // A nicer C++17 approach
-#define in_constexpr()                           \
-  int IN_CONSTEXPR_CAT2(__unused, __LINE__) = 0; \
-  __builtin_expect(in_constexpr::in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), 0)
-#define in_runtime()                             \
-  int IN_CONSTEXPR_CAT2(__unused, __LINE__) = 0; \
-  __builtin_expect(!in_constexpr::in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), 1)
+#define in_constexpr()                                                      \
+  int IN_CONSTEXPR_CAT2(__unused, __LINE__) = 0;                            \
+  __builtin_expect(                                                         \
+    in_constexpr::in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), \
+    0)
+#define in_runtime()                                                         \
+  int IN_CONSTEXPR_CAT2(__unused, __LINE__) = 0;                             \
+  __builtin_expect(                                                          \
+    !in_constexpr::in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), \
+    1)
 #else
 // A C++14 approach
 #define in_constexpr()  bool IN_CONSTEXPR_CAT2(canary, __LINE__) = true) { \
@@ -53,6 +57,7 @@ __attribute__((no_opt)) constexpr auto in_constexpr_impl(T) {
 #endif
 
 bool initialize();
+
 // This should return the second branch if the library is enabled.
 inline bool is_setup() {
   if (in_constexpr()) {

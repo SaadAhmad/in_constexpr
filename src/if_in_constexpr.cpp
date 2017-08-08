@@ -14,10 +14,18 @@ extern unsigned char etext;
 
 namespace in_constexpr {
 
+/*
+ To do this, we need to
+  1. Find the flag in the .text section of the program,
+  2. Unlock the page the code is in it for writing,
+  3. Keep the page from being unloaded
+  4. Modify the FLAG to 0
+  5. Lock the page again for writing
+*/
 bool initialize() {
   volatile auto temp_flag = IS_CONSTEXPR_FLAG;
-  // If the flag is zero then that means that the binary has already been modified.
-  // Consider it a success and return early.
+  // If the flag is zero then that means that the binary has already been
+  // modified. Consider it a success and return early.
   if (temp_flag == 0) {
     return true;
   }

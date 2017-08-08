@@ -15,6 +15,8 @@ The approach is discussed in [this post](http://saadahmad.ca/detecting-evaluatio
 * x86 only so far
 * Runtime approach only works on linux (replacing code in the binary should work under windows for now)
 * See detailed descriptions about caveats [here](http://saadahmad.ca/detecting-evaluation-context-inside-constexpr-functions/#caveats)
+* The library must be statically linked
+* The initialization logic relies on being able to modify the .text segment of your program
 
 # Using the library
 ## Building and installing
