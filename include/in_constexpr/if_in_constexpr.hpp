@@ -34,12 +34,20 @@ __attribute__((no_opt)) constexpr auto in_constexpr_impl(T) {
 #define in_constexpr()                           \
   int IN_CONSTEXPR_CAT2(__unused, __LINE__) = 0; \
   __builtin_expect(in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), 0)
+#define in_runtime()                             \
+  int IN_CONSTEXPR_CAT2(__unused, __LINE__) = 0; \
+  __builtin_expect(!in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), 1)
 #else
 // A C++14 approach
-#define in_constexpr() true) {                   \
-  }                                              \
-  int IN_CONSTEXPR_CAT2(__unused, __LINE__) = 0; \
-   if ( __builtin_expect(in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), 0)
+#define in_constexpr()  bool IN_CONSTEXPR_CAT2(canary, __LINE__) = true) { \
+  }                                                                        \
+  int IN_CONSTEXPR_CAT2(__unused, __LINE__) = 0;                           \
+  if ( __builtin_expect(in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), 0)
+
+#define in_runtime() bool IN_CONSTEXPR_CAT2(canary, __LINE__) = true) { \
+  }                                                                     \
+  int IN_CONSTEXPR_CAT2(__unused, __LINE__) = 0;                        \
+  if ( __builtin_expect(!in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), 1)
 #endif
 
 bool setup_if_constexpr();
