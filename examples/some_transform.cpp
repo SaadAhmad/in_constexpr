@@ -22,9 +22,6 @@ __attribute((noinline)) void print(int a) {
 }
 
 int main() {
-  if (!setup_if_constexpr()) {
-    return -1;
-  }
   constexpr int a = 11;
   volatile int b  = 2;
 

@@ -25,12 +25,15 @@ You can customize and install the library using the following:
 cmake <code directory> -DCMAKE_INSTALL_PREFIX=<install directory> && make -j && make install
 ```
 Then just link in as you would a normal library. You can try the examples in examples/ to see how to use the library.
-## Using the functions with an example
+## Using the api an example
+
+To test if this library is working, you can call ```in_constexpr::is_setup()``` to see if it is working. The library should automatically call the setup by means of the constructor 
+attribute and so you shouldn't need to explicitly call ```in_constexpr::initialize()``` but if it's not happening automatically, you can call that function. 
+
 The library provides an ``` in_constexpr()``` and ```in_runtime()``` macro/method that returns if a constexpr function is within which context. This can be used to provide different code paths in each case. 
+Note, you can't do something like ```if (!in_constexpr()) ``` due to those methods being a syntatic sugar. Use either ```if (in_constexpr())``` or ```if (in_runtime())```.
 
-Note, ```setup_if_constexpr()``` must be called to setup the library otherwise it will only use the constexpr branch. Also, you cant do something like ``` if( !in_constexpr()) ``` due to those methods being a syntatic sugar. Use either ```in_constexpr()``` or ```in_runtime```.
-
-Also use the smart_assert wherever you would use a regular assert and it should also work in constexpr functions. 
+The library also provides a smart_assert which you can use regular assert but stil work within constexpr functions. 
 
 ```cpp
 
@@ -57,9 +60,6 @@ constexpr int factorial(int n) {
 }
 
 int main() {
-  if (!setup_if_constexpr()) {
-    return -1;
-  }
   volatile int a = 5;
   volatile int b = 6;
   std::cout << factorial(a) << std::endl;

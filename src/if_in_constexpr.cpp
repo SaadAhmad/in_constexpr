@@ -4,14 +4,17 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #include <in_constexpr/if_in_constexpr.hpp>
-
 #if defined(__linux__) || defined(__unix__)
 
 #include <sys/mman.h>
 #include <sys/types.h>
 #include <unistd.h>
 
-bool setup_if_constexpr() {
+extern unsigned char etext;
+
+namespace in_constexpr {
+
+bool initialize() {
   volatile auto temp_flag = IS_CONSTEXPR_FLAG;
   // If the flag is zero then that means that the binary has already been modified.
   // Consider it a success and return early.
@@ -19,7 +22,6 @@ bool setup_if_constexpr() {
     return true;
   }
   unsigned char *code = (unsigned char *)&in_constexpr_impl<int>;
-  extern unsigned char etext;
 
   const int size = &etext - code;
   for (int i = 0; i < size; i++) {
@@ -55,13 +57,25 @@ bool setup_if_constexpr() {
           return false;
         }
       }
-      return true;
+      return is_setup();
     }
   }
   return false;
 }
+}
+// namespace in_constexpr
 #else
-bool setup_if_constexpr() {
+
+namespace in_constexpr {
+
+bool initialize() {
+  if (!is_setup()) {
+    throw("The library was not able to be setup!"
+          " This case needs to be handled by search-and-replaced");
+  }
   return false;
 }
+
+} // namespace in_constexpr
+
 #endif

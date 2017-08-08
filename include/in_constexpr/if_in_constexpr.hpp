@@ -16,6 +16,8 @@
 #define no_opt
 #endif
 
+namespace in_constexpr {
+
 #if defined(CUSTOM_IS_CONSTEXPR_FLAG)
 constexpr uint32_t IS_CONSTEXPR_FLAG = CUSTOM_IS_CONSTEXPR_FLAG;
 #else
@@ -33,21 +35,42 @@ __attribute__((no_opt)) constexpr auto in_constexpr_impl(T) {
 // A nicer C++17 approach
 #define in_constexpr()                           \
   int IN_CONSTEXPR_CAT2(__unused, __LINE__) = 0; \
-  __builtin_expect(in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), 0)
+  __builtin_expect(in_constexpr::in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), 0)
 #define in_runtime()                             \
   int IN_CONSTEXPR_CAT2(__unused, __LINE__) = 0; \
-  __builtin_expect(!in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), 1)
+  __builtin_expect(!in_constexpr::in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), 1)
 #else
 // A C++14 approach
 #define in_constexpr()  bool IN_CONSTEXPR_CAT2(canary, __LINE__) = true) { \
   }                                                                        \
   int IN_CONSTEXPR_CAT2(__unused, __LINE__) = 0;                           \
-  if ( __builtin_expect(in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), 0)
+  if ( __builtin_expect(in_constexpr::in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), 0)
 
 #define in_runtime() bool IN_CONSTEXPR_CAT2(canary, __LINE__) = true) { \
   }                                                                     \
   int IN_CONSTEXPR_CAT2(__unused, __LINE__) = 0;                        \
-  if ( __builtin_expect(!in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), 1)
+  if ( __builtin_expect(!in_constexpr::in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), 1)
 #endif
 
-bool setup_if_constexpr();
+bool initialize();
+// This should return the second branch if the library is enabled.
+inline bool is_setup() {
+  if (in_constexpr()) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+namespace internal {
+// We add the constructor attribute at 101 so that this will get called at
+// program init time.
+__attribute__((constructor(101))) inline void setup_at_init_time() {
+  if (!in_constexpr::initialize()) {
+    throw("Something went wrong initializing in_constexpr()");
+  }
+}
+
+} // internal
+
+} // namespace in_constexpr
