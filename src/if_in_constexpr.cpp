@@ -13,7 +13,12 @@
 
 bool setup_if_constexpr() {
   volatile auto temp_flag = IS_CONSTEXPR_FLAG;
-  unsigned char *code     = (unsigned char *)&in_constexpr_impl<int>;
+  // If the flag is zero then that means that the binary has already been modified.
+  // Consider it a success and return early.
+  if (temp_flag == 0) {
+    return true;
+  }
+  unsigned char *code = (unsigned char *)&in_constexpr_impl<int>;
   extern unsigned char etext;
 
   const int size = &etext - code;
@@ -39,6 +44,7 @@ bool setup_if_constexpr() {
           return false;
         }
       }
+
       // Set the flag to zero.
       code_as_int = 0x0;
 
@@ -49,9 +55,10 @@ bool setup_if_constexpr() {
           return false;
         }
       }
+      return true;
     }
   }
-  return true;
+  return false;
 }
 #else
 bool setup_if_constexpr() {
