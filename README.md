@@ -24,7 +24,7 @@ You can customize and install the library using the following:
 cmake <code directory> -DCMAKE_INSTALL_PREFIX=<install directory> && make -j && make install
 ```
 Then just link in as you would a normal library. You can try the examples in examples/ to see how to use the library.
-## Using the api an example
+## Using the API and an example
 
 To test if this library is working, you can call ```in_constexpr::is_setup()``` to see if it is working. The library should automatically call the setup by means of the constructor 
 attribute and so you shouldn't need to explicitly call ```in_constexpr::initialize()``` but if it's not happening automatically, you can call that function. 
@@ -33,6 +33,8 @@ The library provides an ``` in_constexpr()``` and ```in_runtime()``` macro/metho
 Note, you can't do something like ```if (!in_constexpr()) ``` due to those methods being a syntatic sugar. Use either ```if (in_constexpr())``` or ```if (in_runtime())```.
 
 The library also provides a smart_assert which you can use regular assert but stil work within constexpr functions. 
+
+You can find more examples under the examples folder. 
 
 ```cpp
 
