@@ -8,8 +8,7 @@ The approach is discussed in [this post](http://saadahmad.ca/detecting-evaluatio
 
 # Features
 * if (in_constexpr()/in_runtime()) - Being able to detect if in runtime or compile time 
-* smart_assert        - constexpr friendly assert
-* setup_if_constexpr  - enables the if (in_constexpr()) at runtime. 
+* smart_assert                     - constexpr friendly assert
 
 # Constraints
 * Only tested on GCC 5+ and Clang 3.8+
