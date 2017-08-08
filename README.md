@@ -2,7 +2,7 @@
 An approach of detecting if inside a constexpr context in a constexpr function. 
 
 By being able to detect if we're within a constexpr context we can choose to implement
-a runtime specific algorithm while having a different algorithm for doing something at runtime. 
+a runtime specific algorithm while having a different algorithm for doing something at compile time. 
 
 The approach is discussed in [this post](http://saadahmad.ca/detecting-evaluation-context-inside-constexpr-functions/)
 
