@@ -46,11 +46,13 @@ __attribute__((no_opt)) constexpr auto in_constexpr_impl(T) {
 #else
 // A C++14 approach
 #define in_constexpr()  bool IN_CONSTEXPR_CAT2(canary, __LINE__) = true) { \
+    (void)IN_CONSTEXPR_CAT2(canary, __LINE__);                             \
   }                                                                        \
   int IN_CONSTEXPR_CAT2(__unused, __LINE__) = 0;                           \
   if ( __builtin_expect(in_constexpr::in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), 0)
 
 #define in_runtime() bool IN_CONSTEXPR_CAT2(canary, __LINE__) = true) { \
+    (void)IN_CONSTEXPR_CAT2(canary, __LINE__);                          \
   }                                                                     \
   int IN_CONSTEXPR_CAT2(__unused, __LINE__) = 0;                        \
   if ( __builtin_expect(!in_constexpr::in_constexpr_impl(IN_CONSTEXPR_CAT2(__unused, __LINE__)), 1)
@@ -76,6 +78,6 @@ __attribute__((constructor(101))) inline void setup_at_init_time() {
   }
 }
 
-} // internal
+} // namespace internal
 
 } // namespace in_constexpr

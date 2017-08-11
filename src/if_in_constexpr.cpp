@@ -70,7 +70,7 @@ bool initialize() {
   }
   return false;
 }
-}
+} // namespace in_constexpr
 // namespace in_constexpr
 #else
 
