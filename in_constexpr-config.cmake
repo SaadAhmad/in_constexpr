@@ -5,7 +5,7 @@ get_filename_component(
 include(${SELF_DIR}/in_constexpr-targets.cmake)
 
 get_filename_component(
-  in_constexpr_INCLUDE_DIRS "${SELF_DIR}/include/in_constexpr" ABSOLUTE
+  in_constexpr_INCLUDE_DIRS "${SELF_DIR}/include/" ABSOLUTE
 )
 get_filename_component(
   in_constexpr_LIB_DIRS "${SELF_DIR}/lib/in_constexpr" ABSOLUTE
