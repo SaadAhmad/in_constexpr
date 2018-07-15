@@ -53,11 +53,13 @@ set(EXPORT_HEADER_FILES
   include/in_constexpr/smart_assert.hpp
 )
 
+# Export the following headers
 set_target_properties(in_constexpr
   PROPERTIES
     PUBLIC_HEADER "${EXPORT_HEADER_FILES}"
 )
 
+# Install the target
 install (
   TARGETS in_constexpr
   EXPORT  in_constexpr-targets
@@ -66,10 +68,19 @@ install (
   PUBLIC_HEADER DESTINATION include/in_constexpr
 )
 
-install (
+# Using the target, generate a config file
+export(
   EXPORT in_constexpr-targets
   FILE   in_constexpr-config.cmake
   NAMESPACE in_constexpr::
+)
+
+# Export this to the package registry
+export(PACKAGE in_constexpr)
+
+# Install the config file to the proper location as well
+install (
+  FILES ${CMAKE_BINARY_DIR}/in_constexpr-config.cmake
   DESTINATION cmake/in_constexpr
 )
 
