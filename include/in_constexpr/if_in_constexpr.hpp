@@ -31,7 +31,7 @@ __attribute__((no_opt)) constexpr auto in_constexpr_impl(T) {
 
 #define IN_CONSTEXPR_CAT(x, y) x##y
 #define IN_CONSTEXPR_CAT2(x, y) IN_CONSTEXPR_CAT(x, y)
-#if 0
+#if __cplusplus >= 201703L
 // A nicer C++17 approach
 #define in_constexpr()                                                      \
   int IN_CONSTEXPR_CAT2(__unused, __LINE__) = 0;                            \
