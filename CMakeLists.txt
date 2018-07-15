@@ -72,6 +72,11 @@ install (
   DESTINATION cmake/in_constexpr
 )
 
+###############################################
+# Build Examples                              #
+###############################################
 
-add_subdirectory(examples)
-
+# Build only if no-one is including us.
+if(${CMAKE_PROJECT_NAME} STREQUAL ${PROJECT_NAME})
+  add_subdirectory(examples)
+endif()
