@@ -68,6 +68,7 @@ install (
 
 install (
   EXPORT in_constexpr-targets
+  FILE   in_constexpr-config.cmake
   NAMESPACE in_constexpr::
   DESTINATION cmake/in_constexpr
 )
